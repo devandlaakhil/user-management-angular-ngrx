@@ -1,0 +1,23 @@
+{
+  "users": [
+    {
+      "id": "2",
+      "name": "Rahul",
+      "email": "rahul@gmail.com",
+      "role": "User"
+    },
+    {
+      "id": "3",
+      "name": "Priya",
+      "email": "priya@gmail.com",
+      "role": "User"
+    },
+    {
+      "id": "4",
+      "name": "ramesh",
+      "email": "ramesh@gmail.com",
+      "role": "User"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

@@ -1,0 +1,29 @@
+<div class="login-container">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h2>User Management</h2>
+    <div>
+      <label>Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Enter email"
+      >
+    </div>
+    <div>
+      <label>Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Enter password"
+      >
+    </div>
+    @if (errorMessage) {
+      <p class="error">
+        {{ errorMessage }}
+      </p>
+    }
+    <button type="submit">
+      Login
+    </button>
+  </form>
+</div>

@@ -1,0 +1,56 @@
+import { inject, Injectable } from "@angular/core";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { catchError, map, mergeMap, of } from "rxjs";
+import * as UserActions from './users.actions';
+import { UserService } from "../../users/user.service";
+
+@Injectable()
+export class UsersEffects {
+    private actions$ = inject(Actions);
+    private userService = inject(UserService);
+
+    loadUsers$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(UserActions.loadUsers),
+            mergeMap(() =>
+                this.userService.getUsers().pipe(
+                    map(users => UserActions.loadUsersSuccess({ users })),
+                    catchError(error => of(UserActions.loadUsersFailure({ error: error.message })))
+                )
+            )
+        )
+    );
+    addUser$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(UserActions.addUser),
+            mergeMap(({ user }) =>
+                this.userService.addUser(user).pipe(
+                    map(createdUser => UserActions.addUserSuccess({ user: createdUser })),
+                    catchError(error => of(UserActions.addUserFailure({ error: error.message })))
+                )
+            )
+        )
+    );
+    updateUser$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(UserActions.updateUser),
+            mergeMap(({ user }) =>
+                this.userService.updateUser(user).pipe(
+                    map(updatedUser => UserActions.updateUserSuccess({ user: updatedUser })),
+                    catchError(error => of(UserActions.updateUserFailure({ error: error.message })))
+                )
+            )
+        )
+    );
+    deleteUser$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(UserActions.deleteUser),
+            mergeMap(({id}) => 
+                this.userService.deleteUser(id).pipe(
+                    map(() => UserActions.deleteUserSuccess({id})),
+                    catchError(error => of(UserActions.deleteUserFailure({error : error.message})))
+                )
+            )
+        )
+    )
+}
